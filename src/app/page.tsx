@@ -1,19 +1,17 @@
 'use client';
 
-import { trpc } from '../utils/trpc';
-
 export default function Home() {
-  const { data, isLoading, error } = trpc.task.list.useQuery();
-
-  console.log({ data, isLoading, error });
-
-  if (isLoading) return <p>Carregando...</p>;
-  if (error) return <p>Erro: {error.message}</p>;
-
   return (
-    <main>
-      <h1>Lista de Tarefas</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+    <main className="p-8 bg-red-500 min-h-screen">
+      <h1 className="text-3xl font-bold">Welcome to my todo app</h1>
+      <nav className="flex flex-col gap-4 mt-4">
+        <a href="/tasks" className="text-blue-600 underline hover:text-blue-800">
+          See task list
+        </a>
+        <a href="/tasks/create" className="text-blue-600 underline hover:text-blue-800">
+          Create new task
+        </a>
+      </nav>
     </main>
   );
 }

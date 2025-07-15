@@ -36,12 +36,11 @@ export const taskRouter = router({
     return task;
   }),
 
-  delete: publicProcedure.input(
-    z.object({ id: z.string() })
-  ).mutation(({ input }) => {
-    const index = tasks.findIndex(t => t.id === input.id);
-    if (index === -1) throw new Error('Task not found');
-    tasks.splice(index, 1);
+  delete: publicProcedure
+  .input(z.object({ id: z.string() }))
+  .mutation(({ input }) => {
+    tasks = tasks.filter(task => task.id !== input.id);
     return { success: true };
   }),
+
 });
