@@ -72,3 +72,12 @@ src/
 
 - Tasks are stored in memory only. Refreshing the page resets the data.
 - CSS is managed manually via a single global stylesheet (no Tailwind or external CSS frameworks).
+
+## 🧪 Mock Data and Infinite Scroll
+
+- This project currently uses **mock data stored in-memory** to simulate task storage. Data will reset on server restart as there is no persistent database.
+- The task list implements an **infinite scroll** functionality to load tasks incrementally as the user scrolls down.
+- These features are designed to provide a smooth user experience and facilitate testing without requiring a database setup.
+
+## 📄 License
+MIT License
