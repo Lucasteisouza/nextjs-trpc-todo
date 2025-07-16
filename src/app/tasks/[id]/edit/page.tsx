@@ -10,7 +10,7 @@ export default function EditTaskPage() {
   const params = useParams<{ id: string }>();
   const taskId = params?.id;
 
-  const { data: task, isLoading } = trpc.task.list.useQuery();
+  const { data: task, isLoading } = trpc.task.list.useQuery({limit: 100});
   const updateTask = trpc.task.update.useMutation({
     onSuccess: () => {
         toast.success('Task sucesfully updated!')
@@ -21,7 +21,7 @@ export default function EditTaskPage() {
     }
   });
 
-  const currentTask = task?.find(t => t.id === taskId);
+  const currentTask = task?.items.find(t => t.id === taskId);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -33,13 +33,13 @@ export default function EditTaskPage() {
     }
   }, [currentTask]);
 
-  if (isLoading) return <p>Carregando...</p>;
-  if (!currentTask) return <p>Tarefa não encontrada</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (!currentTask) return <p>Task not found</p>;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!taskId) {
-        alert('ID da tarefa não encontrado');
+        alert('task ID not found');
         return;
     }
     updateTask.mutate({ id: taskId, title, description });
