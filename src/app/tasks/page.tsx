@@ -5,19 +5,18 @@ import { trpc } from '../../utils/trpc';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-
 export default function TasksPage() {
   const utils = trpc.useUtils();
   const router = useRouter();
   const taskList = trpc.task.list.useQuery();
   const deleteTask = trpc.task.delete.useMutation({
     onSuccess: () => {
-      toast.success('Task successfully removed')
+      toast.success('Task successfully removed');
       utils.task.list.invalidate();
     },
     onError: (error) => {
-      toast.error(`Error removing task: ${error.message}`)
-    }
+      toast.error(`Error removing task: ${error.message}`);
+    },
   });
 
   if (taskList.isLoading) return <p>Loading...</p>;
@@ -26,18 +25,19 @@ export default function TasksPage() {
     <main>
       <h1>Task list</h1>
 
-      <Link href="/tasks/create">
-        <button>Create new task</button>
+      <Link href="/tasks/create" className="btn-link">
+        Create new task
       </Link>
 
       <ul>
-        {taskList.data?.map(task => (
+        {taskList.data?.map((task) => (
           <li key={task.id}>
-            <strong>{task.title}</strong> — {task.description}
-            <Link href={`/tasks/${task.id}/edit`}>
-              <button>Edit</button>
-            </Link>
+            <strong>{task.title}</strong> — {task.description}{' '}
+            <Link href={`/tasks/${task.id}/edit`} className="btn-link">
+              Edit
+            </Link>{' '}
             <button
+              className="btn-action"
               onClick={() => {
                 if (confirm(`Remover "${task.title}"?`)) {
                   deleteTask.mutate({ id: task.id });
